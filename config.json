@@ -1,0 +1,16 @@
+{
+  "sensor": {
+    "startTemp": 20.0,
+    "tempStep": 1.0
+  },
+  "controller": {
+    "warningThreshold": 25.0
+  },
+  "rte": {
+    "durationMs": 10000
+  },
+  "schedule": [
+    { "task": "sensor", "periodMs": 1000 },
+    { "task": "controller", "periodMs": 2000 }
+  ]
+}
