@@ -1,4 +1,8 @@
 // File: include/sensor_swc.hpp
 #pragma once
-#include "shared_memory.hpp"
-void sensorApp(SharedMemory& shm, float startTemp, float tempStep, int periodMs);
+#include "message_queue.hpp"
+struct SensorData {
+    float temperature;
+    float pressure;
+};
+void sensorApp(MessageQueue<SensorData>& queue,float startTemp, float tempStep, int periodMs);

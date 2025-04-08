@@ -6,10 +6,10 @@
 #include<thread>
 #include <chrono>
 
-void controllerApp(SharedMemory& shm, float warningThreshold, int periodMs) {
+void controllerApp(MessageQueue<SensorData>& queue, float warningThreshold, int periodMs) {
     float lastTemp =-1.0f;
     while(true){
-        SensorData data = shm.readData();
+        SensorData data = queue.receive();
 
         if (data.temperature != lastTemp) {
             std::ofstream logfile("controller_log.txt", std::ios::app);

@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 #include<fstream>
 #include<thread>
+#include<iostream>
 
 using json=nlohmann::json;
 
@@ -23,10 +24,10 @@ void runExecutionManager(){
     int sensorPeriod= config["sensor"]["periodMs"];
     int controllerPeriod= config["controller"]["periodMs"];
     
-    SharedMemory shm;
+    MessageQueue<SensorData> messageQueue;
 
-    std::thread sensorThread(sensorApp, std::ref(shm), startTemp, tempStep, sensorPeriod);
-    std::thread controllerThread(controllerApp, std::ref(shm), warningThreshold, controllerPeriod);
+    std::thread sensorThread(sensorApp, std::ref(messageQueue), startTemp, tempStep, sensorPeriod);
+    std::thread controllerThread(controllerApp, std::ref(messageQueue), warningThreshold, controllerPeriod);
 
     sensorThread.join();
     controllerThread.join();

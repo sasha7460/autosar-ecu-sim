@@ -1,4 +1,5 @@
 // File: include/controller_swc.hpp
 #pragma once
-#include "shared_memory.hpp"
-void controllerApp(SharedMemory& shm, float warningThreshold, int periodMs);
+#include "message_queue.hpp"
+#include "sensor_swc.hpp"
+void controllerApp(MessageQueue<SensorData>& queue, float warningThreshold, int periodMs);
