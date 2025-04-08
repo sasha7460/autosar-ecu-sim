@@ -2,21 +2,24 @@
 #include "../include/sensor_swc.hpp"
 #include <iostream>
 #include<fstream>
-//#include <thread>
-// #include <chrono>
+#include <thread>
+#include <chrono>
 
-void runSensorSWC(SharedMemory& shm, float startTemp, float tempStep) {
-    static int i = 0;
-    SensorData data;
-    data.temperature = startTemp + i * tempStep;
-    data.pressure = 1.0f + (i * 0.1f);
-    shm.writeData(data);
+void sensorApp(SharedMemory& shm, float startTemp, float tempStep, int periodMs) {
+    int i = 0;
+    while(true){
+        SensorData data;
+        data.temperature = startTemp + i * tempStep;
+        data.pressure = 1.0f + (i * 0.1f);
+        shm.writeData(data);
 
-    std::ofstream logfile("sensor_log.txt", std::ios::app);
-    std::cout << "Sensor SWC: Temp = " << data.temperature << ", Pressure = " << data.pressure << std::endl;
-    if (logfile.is_open()) {
-        logfile << "Temp = " << data.temperature << ", Pressure = " << data.pressure << std::endl;
+        std::ofstream logfile("sensor_log.txt", std::ios::app);
+        std::cout<<"[Sensor] Temp = "<<data.temperature<<", Pressure = "<<data.pressure << std::endl;
+        if(logfile.is_open()){
+            logfile<<"Temp = "<<data.temperature<<", Pressure = "<<data.pressure<<std::endl;  
+        }     
+        ++i;
+        std::this_thread::sleep_for(std::chrono::milliseconds(periodMs));
     }
-    ++i;
 }
 

@@ -1,6 +1,7 @@
 #include "../include/rte.hpp"
+#include "../include/execution_manager.hpp"
 
 int main(){
-    runECU();
+    runExecutionManager();
     return 0;
 }

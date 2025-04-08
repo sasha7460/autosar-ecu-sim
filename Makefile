@@ -2,7 +2,7 @@ CXX=g++
 CXXFLAGS=-std=c++17 -Iinclude -pthread
 LDFLAGS=
 
-SRC=src/shared_memory.cpp src/sensor_swc.cpp src/controller_swc.cpp src/rte.cpp
+SRC=src/shared_memory.cpp src/sensor_swc.cpp src/controller_swc.cpp src/execution_manager.cpp
 
 all: ecu
 
