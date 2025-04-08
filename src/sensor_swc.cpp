@@ -1,11 +1,14 @@
 // File: src/sensor_swc.cpp
 #include "../include/sensor_swc.hpp"
+#include "../include/service_registry.hpp"
 #include <iostream>
 #include<fstream>
 #include <thread>
 #include <chrono>
 
 void sensorApp(MessageQueue<SensorData>& queue, float startTemp, float tempStep, int periodMs) {
+    ServiceRegistry::instance().registerService("SensorDataService", &queue);
+    
     int i = 0;
     while(true){
         SensorData data;

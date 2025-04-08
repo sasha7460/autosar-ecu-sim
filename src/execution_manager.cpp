@@ -2,10 +2,12 @@
 #include"../include/execution_manager.hpp"
 #include "../include/sensor_swc.hpp"
 #include "../include/controller_swc.hpp"
+#include "../include/message_queue.hpp"
+#include "../include/sensor_types.hpp"
 #include <nlohmann/json.hpp>
 #include<fstream>
 #include<thread>
-#include<iostream>
+#include <iostream>
 
 using json=nlohmann::json;
 
@@ -27,7 +29,7 @@ void runExecutionManager(){
     MessageQueue<SensorData> messageQueue;
 
     std::thread sensorThread(sensorApp, std::ref(messageQueue), startTemp, tempStep, sensorPeriod);
-    std::thread controllerThread(controllerApp, std::ref(messageQueue), warningThreshold, controllerPeriod);
+    std::thread controllerThread(controllerApp, warningThreshold, controllerPeriod);
 
     sensorThread.join();
     controllerThread.join();
