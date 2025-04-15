@@ -1,16 +1,20 @@
 // File: src/sensor_swc.cpp
 #include "../include/sensor_swc.hpp"
 #include "../include/service_registry.hpp"
+#include "../include/lifecycle.hpp"
 #include <iostream>
 #include<fstream>
 #include <thread>
 #include <chrono>
 
+extern std::atomic<AppState> sensorState;    
+
 void sensorApp(MessageQueue<SensorData>& queue, float startTemp, float tempStep, int periodMs) {
+    sensorState = AppState::RUNNING;
     ServiceRegistry::instance().registerService("SensorDataService", &queue);
-    
     int i = 0;
-    while(true){
+
+    while(sensorState != AppState::SHUTDOWN){
         SensorData data;
         data.temperature = startTemp + i * tempStep;
         data.pressure = 1.0f + (i * 0.1f);
@@ -24,5 +28,6 @@ void sensorApp(MessageQueue<SensorData>& queue, float startTemp, float tempStep,
         ++i;
         std::this_thread::sleep_for(std::chrono::milliseconds(periodMs));
     }
+    std::cout<<"[Sensor] Shutting down. ";
 }
 
