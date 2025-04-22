@@ -1,6 +1,6 @@
-#include "../include/rte.hpp"
+#include "os.hpp"
 
 int main(){
-    runECU();
+    startOS();
     return 0;
 }

@@ -1,22 +1,13 @@
-// File: src/sensor_swc.cpp
-#include "../include/sensor_swc.hpp"
-#include <iostream>
-#include<fstream>
-//#include <thread>
-// #include <chrono>
+#include "rte_sensor_swc.hpp"
+#include "shared_types.hpp"
 
-void runSensorSWC(SharedMemory& shm, float startTemp, float tempStep) {
-    static int i = 0;
+void runSensorSWC() {
     SensorData data;
-    data.temperature = startTemp + i * tempStep;
-    data.pressure = 1.0f + (i * 0.1f);
-    shm.writeData(data);
+    Rte_Read_SensorInput(&data);
 
-    std::ofstream logfile("sensor_log.txt", std::ios::app);
-    std::cout << "Sensor SWC: Temp = " << data.temperature << ", Pressure = " << data.pressure << std::endl;
-    if (logfile.is_open()) {
-        logfile << "Temp = " << data.temperature << ", Pressure = " << data.pressure << std::endl;
-    }
-    ++i;
+    // Simulate sensor update
+    data.temperature += 0.5f;
+    data.pressure += 0.1f;
+
+    Rte_Write_SensorOutput(&data);
 }
-
