@@ -1,16 +1,23 @@
 #include "os.hpp"
-#include "sensor_swc.hpp"
-#include "controller_swc.hpp"
 #include <thread>
 #include <chrono>
+#include <iostream>
 
-void startOS(void) {
-    // Simulate the OS scheduler
-    while (true) {
-        runSensorSWC();
-        runControllerSWC();
-        
-        // Sleep for a short duration to simulate time slicing
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+extern void Rte_Task_10ms();
+extern void Rte_Task_20ms();
+
+void startOS() {
+    std::thread([] {
+        while (systemRunning) {
+            Rte_Task_10ms();
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+    }).detach();
+
+    std::thread([] {
+        while (systemRunning) {
+            Rte_Task_20ms();
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        }
+    }).detach();
 }

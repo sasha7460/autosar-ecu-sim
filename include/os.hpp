@@ -1,3 +1,4 @@
 #pragma once
 
-void startOS(void);
+void startOS();
+extern bool systemRunning;

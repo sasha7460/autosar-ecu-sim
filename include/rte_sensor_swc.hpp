@@ -3,3 +3,4 @@
 
 void Rte_Read_SensorInput(SensorData* data);
 void Rte_Write_SensorOutput(const SensorData* data);
+void runSensorSWC();

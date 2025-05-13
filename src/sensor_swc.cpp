@@ -5,7 +5,6 @@ void runSensorSWC() {
     SensorData data;
     Rte_Read_SensorInput(&data);
 
-    // Simulate sensor update
     data.temperature += 0.5f;
     data.pressure += 0.1f;
 
